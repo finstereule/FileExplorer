@@ -11,12 +11,13 @@
             <ColumnDefinition Width="271*"/>
             <ColumnDefinition Width="21*"/>
         </Grid.ColumnDefinitions>
-        <Button Content="Back" HorizontalAlignment="Left" Name="btnBack" Click="btnBack_Click" Margin="10,23,0,0" VerticalAlignment="Top" Width="50"/>
-        <Button Content="Forward" HorizontalAlignment="Left" Name="btnForward" Click="btnForward_Click" Margin="65,23,0,0" VerticalAlignment="Top" Width="52"/>
-        <Button Content="Open" HorizontalAlignment="Left" Name="btnOpen" Click="btnOpen_Click" Margin="512,23,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Name="txtPath" IsReadOnly="True" Margin="163,23,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="329"/>
+        <Button Content="Back" HorizontalAlignment="Left" Name="btnBack" Click="btnBack_Click" Margin="10,23,0,0" VerticalAlignment="Top" Width="50" Visibility="Visible" Command="{Binding BackCommand}"/>
+        <Button Content="Forward" HorizontalAlignment="Left" Name="btnForward" Click="btnForward_Click" Margin="65,23,0,0" VerticalAlignment="Top" Width="52" Command="{Binding ForwardCommand}"/>
+        <Button Content="Browse" HorizontalAlignment="Left" Name="btnOpen" Click="btnOpen_Click" Margin="528,22,0,0" VerticalAlignment="Top" Width="59" Grid.ColumnSpan="2"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Name="txtPath" Margin="163,23,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="317"/>
         <WebBrowser HorizontalAlignment="Left" Height="365" Name="webBrowser" Margin="10,61,0,0" VerticalAlignment="Top" Width="577" Grid.ColumnSpan="2"/>
         <Label Content="Path:" HorizontalAlignment="Left" Margin="122,20,0,0" VerticalAlignment="Top"/>
+        <Button Content="Ok" x:Name="btnOpen1" Click="btnOpen1_Click" Margin="486,22,33,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
