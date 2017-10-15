@@ -19,15 +19,16 @@ namespace lab1
 
         public LoginViewModel(User userCandidate)
         {
-            this._userCandidate = userCandidate;
+            this._userCandidate = userCandidate; //отримує данні, введені в форму
         }
-
-        public RelayCommand CloseCommand
+         
+        public RelayCommand CloseCommand //відправляє? команду закриття
         {
-            get { return _closeCommand ?? (_closeCommand = new RelayCommand(obj => OnRequestClose(true))); }
+            get { return _closeCommand ?? (_closeCommand = new RelayCommand(obj => OnRequestClose(true))); } 
         }
 
-        public RelayCommand SignInCommand
+
+        public RelayCommand SignInCommand //вхід,я к вже існуючий користувач
         {
             get
             {
@@ -37,7 +38,8 @@ namespace lab1
             }
         }
 
-        public RelayCommand SignUpCommand
+
+        public RelayCommand SignUpCommand //створення нового користувача 
         {
             get
             {
@@ -51,7 +53,7 @@ namespace lab1
         }
 
 
-        private void SignUp(Object obj)
+        private void SignUp(Object obj) //створює нового користувача, якщо такий ще не існує
         {
 
             if (DBAdapter.Users.Any(user => user.Username == Username))
@@ -64,7 +66,7 @@ namespace lab1
         }
 
 
-        internal String Password
+        internal String Password //отримує пароль, введений в форму
         {
             get => _userCandidate.Password;
             set
@@ -72,7 +74,7 @@ namespace lab1
                 _userCandidate.Password = value;
             }
         }
-        public String Username
+        public String Username //отримує ім'я, введене в форму
         {
             get => _userCandidate.Username;
             set
@@ -82,11 +84,11 @@ namespace lab1
             }
         }
 
-        private void SignIn(Object obj)
+        private void SignIn(Object obj) //шукає, чи ім'я та пароль відповідають існуючим в базі. якщо так - переходить до браузера
         {
 
             var currentUser = DBAdapter.Users.FirstOrDefault(user => user.Username == Username &&
-                                                                     user.Password == Password);
+                                                                     user.Password == Password); 
             if (currentUser == null)
             {
                 MessageBox.Show("Wrong Username or Password");
@@ -100,9 +102,8 @@ namespace lab1
             OnRequestClose(false);
         }
 
-        internal event CloseHandler RequestClose;
-        public delegate void CloseHandler(bool isQuitApp);
-
+        internal event CloseHandler RequestClose; 
+        public delegate void CloseHandler(bool isQuitApp); 
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -112,7 +113,7 @@ namespace lab1
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected virtual void OnRequestClose(bool isquitapp)
+        protected virtual void OnRequestClose(bool isquitapp) //звільнює Handler, якщо був запит на закриття додатку
         {
             RequestClose?.Invoke(isquitapp);
         }

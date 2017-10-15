@@ -4,11 +4,11 @@
 winexe
 C#
 .cs
-C:\Users\Dezzer\source\repos\FileExplorer-master\lab1\obj\Debug\
+C:\Users\Dezzer\source\repos\FileExplorer-master\lab1\obj\Release\
 lab1
 none
 false
-DEBUG;TRACE
+TRACE
 C:\Users\Dezzer\source\repos\FileExplorer-master\lab1\App.xaml
 3373439371
 

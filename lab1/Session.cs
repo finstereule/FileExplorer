@@ -12,7 +12,7 @@ namespace lab1
         public DateTime dateTime { get; set; }
         public string Path { get; set; }
 
-        public Session(string username, DateTime dateTime, string path )
+        public Session(string username, DateTime dateTime, string path ) 
         {
             this.Username = username;
             this.dateTime = dateTime;

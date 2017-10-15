@@ -16,10 +16,10 @@ namespace lab1
 
     internal static class SerializeManager
     {
-        private static readonly string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        private static readonly string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); //отримує шлях до папки
         private static readonly string DirPath = Path.Combine(AppData, "lab1");
 
-        private static string CreateAndGetPath(string filename)
+        private static string CreateAndGetPath(string filename) //створює і отримує шлях
         {
             if (!Directory.Exists(DirPath))
                 Directory.CreateDirectory(DirPath);
@@ -27,7 +27,7 @@ namespace lab1
             return Path.Combine(DirPath, filename);
         }
 
-        public static void Serialize<TObject>(TObject obj) where TObject : ISerializable
+        public static void Serialize<TObject>(TObject obj) where TObject : ISerializable 
         {
             try
             {

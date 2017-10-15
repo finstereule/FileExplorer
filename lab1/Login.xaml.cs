@@ -20,22 +20,21 @@ namespace lab1
     {
         public Login()
         {
-            InitializeComponent();
-            LoginViewModel = new LoginViewModel(new User());
-            LoginViewModel.RequestClose += Close;
-            DataContext = LoginViewModel;
+            InitializeComponent(); 
+            LoginViewModel = new LoginViewModel(new User()); 
+            LoginViewModel.RequestClose += Close; //дає можливість відправити запит на закриття
+            DataContext = LoginViewModel; //дає можливість обмінюватись данними між формою і виконувальним кодом з LoginViewModel
         }
 
         private LoginViewModel LoginViewModel { get; set; }
 
-        private void Password_OnPasswordChanged(object sender, RoutedEventArgs e)
+        private void Password_OnPasswordChanged(object sender, RoutedEventArgs e) //зміна паролю
         {
-            LoginViewModel.Password = Password.Password;
+            LoginViewModel.Password = Password.Password; 
         }
 
 
-
-        private void Close(bool isQuitApp)
+        private void Close(bool isQuitApp) //закриття додатку
         {
             if (!isQuitApp)
                 this.Close();

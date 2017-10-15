@@ -5,7 +5,7 @@
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public User(string username, string password)
+        public User(string username, string password) //ім'я та пароль користувача
         {
             this.Password = password;
             this.Username = username;
