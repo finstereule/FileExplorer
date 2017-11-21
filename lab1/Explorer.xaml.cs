@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace lab1
@@ -17,6 +18,47 @@ namespace lab1
             this.LoadDirectories();
         }
 
+        private void node_MouseLeftButtonUp(object sender, EventArgs e)
+        {
+            if (treeView.SelectedItem != null)
+            {
+                TreeViewItem temp = ((TreeViewItem)treeView.SelectedItem);
+
+                if (temp == null)  return;
+
+                string path;
+
+                path = "";
+
+                string temp1 = "";
+                string temp2 = "";
+
+                while (true)
+                {
+                    temp1 = temp.Header.ToString();
+
+                    if (temp1.Contains(@"\"))
+                    {
+                        temp2 = "";
+                    }
+
+                    path = temp1 + temp2 + path;
+
+                    if (temp.Parent.GetType().ToString() == "System.Windows.Controls.TreeView")
+                    {
+                        break;
+                    }
+                    temp = ((TreeViewItem)temp.Parent);
+                    temp2 = @"\";
+
+                }
+                selectedPath.Text = path;
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Sorry, can't get correct path!", "Bad news");
+            }
+        }
 
         public void LoadDirectories()
         {
@@ -156,15 +198,13 @@ namespace lab1
             var item = (TreeViewItem)sender;
             if (this.HasDummy(item))    //check whether current item has a dummy and remove it
             {
-                this.Cursor = Cursors.Wait;
+                this.Cursor = System.Windows.Input.Cursors.Wait;
                 this.RemoveDummy(item);
                 this.ExploreDirectories(item);   //load child directories and files
                 this.ExploreFiles(item);
-                this.Cursor = Cursors.Arrow;
+                this.Cursor = System.Windows.Input.Cursors.Arrow;
             }
         }
-
-       
 
     }
 }
