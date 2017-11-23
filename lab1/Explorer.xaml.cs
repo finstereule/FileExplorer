@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Security;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -24,7 +25,7 @@ namespace lab1
             {
                 TreeViewItem temp = ((TreeViewItem)treeView.SelectedItem);
 
-                if (temp == null)  return;
+                if (temp == null) return;
 
                 string path;
 
@@ -53,10 +54,14 @@ namespace lab1
 
                 }
                 selectedPath.Text = path;
+
+                Logger.Log(path);
             }
             else
             {
                 System.Windows.MessageBox.Show("Sorry, can't get correct path!", "Bad news");
+
+                Logger.Log("Can't get correct path!");
             }
         }
 
@@ -65,6 +70,7 @@ namespace lab1
             var drives = DriveInfo.GetDrives();  //get the list of the active system drives
             foreach (var drive in drives)
             {
+                if(drive.DriveType == DriveType.Fixed ) // shows only hard drives
                 this.treeView.Items.Add(this.GetItem(drive));
             }
         }
@@ -95,6 +101,7 @@ namespace lab1
         // overloaded methods of GetItem to get folders and files
         private TreeViewItem GetItem(DirectoryInfo directory)
         {
+
             var item = new TreeViewItem
             {
                 Header = directory.Name,
@@ -155,16 +162,28 @@ namespace lab1
                 directoryInfo = ((FileInfo)item.Tag).Directory;
             }
             if (object.ReferenceEquals(directoryInfo, null)) return;
-            foreach (var directory in directoryInfo.GetDirectories())     //TODO: exception with usb/cd drives
+
+            try
             {
-                var isHidden = (directory.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-                var isSystem = (directory.Attributes & FileAttributes.System) == FileAttributes.System;
-                if (!isHidden && !isSystem)
+                foreach (var directory in directoryInfo.GetDirectories())
                 {
-                    item.Items.Add(this.GetItem(directory));
+                    var isHidden = (directory.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+                    var isSystem = (directory.Attributes & FileAttributes.System) == FileAttributes.System;
+                    if (!isHidden && !isSystem)
+                    {
+                        item.Items.Add(this.GetItem(directory));
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Logger.Log("ERROR: ", ex);
+            }
         }
+    
+
+               
+
 
         private void ExploreFiles(TreeViewItem item)
         {
@@ -182,14 +201,25 @@ namespace lab1
                 directoryInfo = ((FileInfo)item.Tag).Directory;
             }
             if (object.ReferenceEquals(directoryInfo, null)) return;
-            foreach (var file in directoryInfo.GetFiles())
+            try
             {
-                var isHidden = (file.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-                var isSystem = (file.Attributes & FileAttributes.System) == FileAttributes.System;
-                if (!isHidden && !isSystem)
+                foreach (var file in directoryInfo.GetFiles())
                 {
-                    item.Items.Add(this.GetItem(file));
+                    var isHidden = (file.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+                    var isSystem = (file.Attributes & FileAttributes.System) == FileAttributes.System;
+                    if (!isHidden && !isSystem)
+                    {
+                        item.Items.Add(this.GetItem(file));
+                    }
                 }
+            }
+
+            catch (Exception ex)
+            {
+                Logger.Log("ERROR: ", ex);
+
+                System.Windows.Forms.MessageBox.Show("No access", "Error",
+                           MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -205,6 +235,6 @@ namespace lab1
                 this.Cursor = System.Windows.Input.Cursors.Arrow;
             }
         }
-
     }
+
 }

@@ -16,51 +16,48 @@ namespace lab1
 
     internal static class SerializeManager
     {
-        private static readonly string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); //отримує шлях до папки
-        private static readonly string DirPath = Path.Combine(AppData, "lab1");
+        //  private static readonly string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); //отримує шлях до папки
+        // private static readonly string DirPath = Path.Combine(AppData, "lab1");
+        private static readonly string DirPath = StaticResources.ClientDirPath;
 
-        private static string CreateAndGetPath(string filename) //створює і отримує шлях
+        private static string CheckAndCreatePath(string filename)
         {
-            if (!Directory.Exists(DirPath))
-                Directory.CreateDirectory(DirPath);
+            if (!Directory.Exists(StaticResources.ClientDirPath))
+                Directory.CreateDirectory(StaticResources.ClientDirPath);
 
-            return Path.Combine(DirPath, filename);
+            return Path.Combine(StaticResources.ClientDirPath, filename);
         }
 
-        public static void Serialize<TObject>(TObject obj) where TObject : ISerializable 
+        public static void Serialize<TObject>(TObject obj, string fileName)
         {
             try
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-                var filename = CreateAndGetPath(obj.Filename);
+                var formatter = new BinaryFormatter();
+                var filename = CheckAndCreatePath(fileName);
 
-                using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate))
+                using (var fs = new FileStream(filename, FileMode.OpenOrCreate))
                 {
                     formatter.Serialize(fs, obj);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                // TODO Add logging
-                throw;
-
+                Logger.Log("Failed to serialize object", ex);
             }
         }
-
-        public static TObject Deserialize<TObject>(string filename) where TObject : ISerializable
+        public static TObject Deserialize<TObject>(string filename)
         {
             try
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-
-                using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate))
+                var formatter = new BinaryFormatter();
+                using (var fs = new FileStream(filename, FileMode.OpenOrCreate))
                 {
                     return (TObject)formatter.Deserialize(fs);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                // TODO add logging
+                Logger.Log("Failed to deserialize object", ex);
                 throw;
             }
         }

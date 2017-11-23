@@ -1,4 +1,7 @@
-﻿namespace lab1
+﻿using System.IO;
+using System.Xml.Serialization;
+
+namespace lab1
 {
     public class User
     {
@@ -10,7 +13,17 @@
             this.Password = password;
             this.Username = username;
         }
+        /*
+        public void Save(string FileName)
+        {
+            using (FileStream stream = new FileStream(fileName, FileMode.Create))
+            {
+                var XML = new XmlSerializer(typeof(User));
+                XML.Serialize(stream, this);
+            }
+        }
 
+    */
         public User()
         {
 

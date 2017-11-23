@@ -40,6 +40,8 @@ namespace lab1
                 this.Close();
             else
             {
+                Logger.Log("App closed.");
+                Logger.Log("===========");
                 Environment.Exit(0);
             }
         }

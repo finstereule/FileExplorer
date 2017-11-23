@@ -63,6 +63,8 @@ namespace lab1
             }
             DBAdapter.Users.Add(new User(Username, Password));
             MessageBox.Show("User successfully created");
+
+            Logger.Log("New User created");
         }
 
 
@@ -92,12 +94,14 @@ namespace lab1
             if (currentUser == null)
             {
                 MessageBox.Show("Wrong Username or Password");
+                Logger.Log("Wrong Username or Password entered");
                 return;
             }
 
             StationManager.CurrentUser = currentUser;
-         //   MessageBox.Show("You have entered just now");
-          
+            //   MessageBox.Show("You have entered just now");
+            Logger.Log("___________New session___________");
+
             new Explorer().Show();      //open second form
             OnRequestClose(false);
         }
@@ -113,7 +117,7 @@ namespace lab1
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected virtual void OnRequestClose(bool isquitapp) //звільнює Handler, якщо був запит на закриття додатку
+        protected virtual void OnRequestClose(bool isquitapp) 
         {
             RequestClose?.Invoke(isquitapp);
         }
