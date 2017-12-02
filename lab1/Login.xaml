@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lab1"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="250" MinHeight="250" MaxHeight="250" MinWidth="170" Width="300" MaxWidth="400">
-    <Grid >
+        Title="LoginWindow" Height="290" MinHeight="290" MaxHeight="290" MinWidth="170" Width="300" MaxWidth="400">
+    <Grid Name="LoginGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition Height="70"/>
-            <RowDefinition MinHeight="20"  MaxHeight="30"/>
-            <RowDefinition Height="10"/>
-            <RowDefinition MinHeight="20"  MaxHeight="30"/>
+            <RowDefinition MinHeight="20"  MaxHeight="30" Height="31*"/>
+            <RowDefinition Height="37"/>
+            <RowDefinition MinHeight="20"  MaxHeight="30" Height="29*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -26,8 +26,12 @@
             <Label Content="Password" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <PasswordBox Margin="10,0,10,10" HorizontalAlignment="Stretch" Height="23" VerticalAlignment="Top" Name="Password" PasswordChanged="Password_OnPasswordChanged"/>
         </StackPanel>
-        <Button Grid.Row="2" Grid.Column="0" Content="Sign up" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Command="{Binding SignUpCommand}" />
-        <Button Grid.Row="2" Grid.Column="1" Content="Log in" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Command="{Binding SignInCommand}"/>
-        <Button Grid.Row="4" Grid.Column="1" Content="Cancel" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Command="{Binding CloseCommand}"/>
+        <Button Grid.Row="2" Grid.Column="0" Content="Sign up" HorizontalAlignment="Center" VerticalAlignment="Center" Width="79" Command="{Binding SignUpCommand}" RenderTransformOrigin="0.056,0.417" Margin="19,0,48,0" Height="31" />
+
+        <Button Grid.Row="2" Grid.Column="1" Content="Log in" HorizontalAlignment="Center" VerticalAlignment="Center" Width="86" Command="{Binding SignInCommand}" Margin="38,0,22,0" Height="31"/>
+
+        <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Margin="126,0"/>
+
+        <Button Grid.Row="4" Grid.Column="1" Content="Cancel" HorizontalAlignment="Center" VerticalAlignment="Center" Width="86" Command="{Binding CloseCommand}" Margin="38,1,22,0" Height="30"/>
     </Grid>
 </Window>

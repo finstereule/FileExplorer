@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Security;
@@ -16,10 +17,10 @@ namespace lab1
         public Explorer()
         {
             InitializeComponent();
-            this.LoadDirectories();
+           this.LoadDirectories();
         }
 
-        private void node_MouseLeftButtonUp(object sender, EventArgs e)
+private void node_MouseLeftButtonUp(object sender, EventArgs e)
         {
             if (treeView.SelectedItem != null)
             {

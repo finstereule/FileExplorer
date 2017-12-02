@@ -74,3 +74,5 @@ C:\Users\savet\Documents\zag\design1\FileExplorer\lab1\obj\Debug\lab1.csproj.Gen
 C:\Users\savet\Documents\zag\design1\FileExplorer\lab1\obj\Debug\lab1.csproj.CoreCompileInputs.cache
 C:\Users\savet\Documents\zag\design1\FileExplorer\lab1\obj\Debug\lab1.exe
 C:\Users\savet\Documents\zag\design1\FileExplorer\lab1\obj\Debug\lab1.pdb
+C:\Users\savet\Documents\zag\design1\FileExplorer\lab1\bin\Debug\FontAwesome.WPF.dll
+C:\Users\savet\Documents\zag\design1\FileExplorer\lab1\bin\Debug\FontAwesome.WPF.xml
