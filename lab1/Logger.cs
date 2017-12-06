@@ -4,68 +4,29 @@ using System.IO;
 
 namespace lab1
 {
-    public static class Logger
+    public partial class Logger
     {
-        private static readonly string Filepath = Path.Combine(StaticResources.ClientLogDirPath,
-            "App" + DateTime.Now.ToString("YYYY_MM_DD") + ".txt");
+        public static void Log(string message, string mParam)
+        {
 
-        private static void CheckAndCreateFile()
-        {
-            if (!Directory.Exists(StaticResources.ClientLogDirPath))
+            using (var context = new FileManagerEntities())
             {
-                Directory.CreateDirectory(StaticResources.ClientLogDirPath);
-            }
-            if (!File.Exists(Filepath))
-            {
-                File.Create(Filepath).Close();
-            }
-        }
+                var dbLogg = new DbLoggs();
 
-        public static void Log(string message)
-        {
-            StreamWriter writer = null;
-            FileStream file = null;
-            try
-            {
-                CheckAndCreateFile();
-                file = new FileStream(Filepath, FileMode.Append);
-                writer = new StreamWriter(file);
-                writer.WriteLine(DateTime.Now.ToString("HH:mm:ss.ms") + " " + message);
+                try
+                {
+                    dbLogg.MDate = DateTime.Now.ToString("HH:mm:ss.ms");
+                    dbLogg.Massage = message;
+                    dbLogg.Param = mParam; //MSG - regular message; ERR - error; PATH - selected path
+                    if(StaticResources.CurrUserId != 0)
+                    dbLogg.UserId = StaticResources.CurrUserId; //if 0 then 'anonymous'
+                    context.DbLoggs.AddObject(dbLogg);
+                    context.SaveChanges();
+                }
+                catch
+                {
+                }
             }
-            catch
-            {
-            }
-            finally
-            {
-                writer?.Close();
-                file?.Close();
-                writer = null;
-                file = null;
-            }
-        }
-        public static void Log(string message, Exception ex)
-        {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine(message);
-            while (ex != null)
-            {
-                stringBuilder.AppendLine(ex.Message);
-                stringBuilder.AppendLine(ex.StackTrace);
-                ex = ex.InnerException;
-            }
-            Log(stringBuilder.ToString());
-        }
-
-        public static void Log(Exception ex)
-        {
-            var stringBuilder = new StringBuilder();
-            while (ex != null)
-            {
-                stringBuilder.AppendLine(ex.Message);
-                stringBuilder.AppendLine(ex.StackTrace);
-                ex = ex.InnerException;
-            }
-            Log(stringBuilder.ToString());
         }
     }
 }

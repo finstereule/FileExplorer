@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище FileManagerModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityType Name="DbLoggs">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Massage" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="MDate" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Param" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
+        <EntityType Name="DbUsers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__DbLoggs__UserId__3D5E1FD2">
+          <End Role="DbUsers" Type="Self.DbUsers" Multiplicity="0..1" />
+          <End Role="DbLoggs" Type="Self.DbLoggs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbUsers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DbLoggs">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище FileManagerModelContainer">
+          <EntitySet Name="DbLoggs" EntityType="Self.DbLoggs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DbUsers" EntityType="Self.DbUsers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__DbLoggs__UserId__3D5E1FD2" Association="Self.FK__DbLoggs__UserId__3D5E1FD2">
+            <End Role="DbUsers" EntitySet="DbUsers" />
+            <End Role="DbLoggs" EntitySet="DbLoggs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FileManagerModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityType Name="DbLoggs">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Massage" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Param" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="DbUsers" Relationship="Self.FK__DbLoggs__UserId__3D5E1FD2" FromRole="DbLoggs" ToRole="DbUsers" />
+        </EntityType>
+        <EntityType Name="DbUsers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="DbLoggs" Relationship="Self.FK__DbLoggs__UserId__3D5E1FD2" FromRole="DbUsers" ToRole="DbLoggs" />
+        </EntityType>
+        <Association Name="FK__DbLoggs__UserId__3D5E1FD2">
+          <End Role="DbUsers" Type="Self.DbUsers" Multiplicity="0..1" />
+          <End Role="DbLoggs" Type="Self.DbLoggs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DbUsers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DbLoggs">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FileManagerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DbLoggs" EntityType="Self.DbLoggs" />
+          <EntitySet Name="DbUsers" EntityType="Self.DbUsers" />
+          <AssociationSet Name="FK__DbLoggs__UserId__3D5E1FD2" Association="Self.FK__DbLoggs__UserId__3D5E1FD2">
+            <End Role="DbUsers" EntitySet="DbUsers" />
+            <End Role="DbLoggs" EntitySet="DbLoggs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище FileManagerModelContainer" CdmEntityContainer="FileManagerEntities">
+          <EntitySetMapping Name="DbLoggs">
+            <EntityTypeMapping TypeName="FileManagerModel.DbLoggs">
+              <MappingFragment StoreEntitySet="DbLoggs">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Massage" ColumnName="Massage" />
+                <ScalarProperty Name="MDate" ColumnName="MDate" />
+                <ScalarProperty Name="Param" ColumnName="Param" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbUsers">
+            <EntityTypeMapping TypeName="FileManagerModel.DbUsers">
+              <MappingFragment StoreEntitySet="DbUsers">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="По умолчанию" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

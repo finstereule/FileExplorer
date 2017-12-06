@@ -16,8 +16,6 @@ namespace lab1
 
     internal static class SerializeManager
     {
-        //  private static readonly string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); //отримує шлях до папки
-        // private static readonly string DirPath = Path.Combine(AppData, "lab1");
         private static readonly string DirPath = StaticResources.ClientDirPath;
 
         private static string CheckAndCreatePath(string filename)
@@ -42,7 +40,7 @@ namespace lab1
             }
             catch (Exception ex)
             {
-                Logger.Log("Failed to serialize object", ex);
+                Logger.Log("Failed to serialize object: " + ex, "ERR");
             }
         }
         public static TObject Deserialize<TObject>(string filename)
@@ -57,7 +55,7 @@ namespace lab1
             }
             catch (Exception ex)
             {
-                Logger.Log("Failed to deserialize object", ex);
+                Logger.Log("Failed to deserialize object" + ex, "ERR");
                 throw;
             }
         }

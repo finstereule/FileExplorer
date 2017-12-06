@@ -20,8 +20,11 @@ namespace lab1
     {
         public Login()
         {
-            InitializeComponent(); 
-            LoginViewModel = new LoginViewModel(new User()); 
+
+            StaticResources.CurrUserId = 0; // 0 - dafault - no user
+
+            InitializeComponent();
+            LoginViewModel = new LoginViewModel(new DbUsers());
             LoginViewModel.RequestClose += Close; //дає можливість відправити запит на закриття
             DataContext = LoginViewModel; //дає можливість обмінюватись данними між формою і виконувальним кодом з LoginViewModel
         }
@@ -31,6 +34,7 @@ namespace lab1
         private void Password_OnPasswordChanged(object sender, RoutedEventArgs e) //зміна паролю
         {
             LoginViewModel.Password = Password.Password; 
+          
         }
 
 
@@ -40,8 +44,7 @@ namespace lab1
                 this.Close();
             else
             {
-                Logger.Log("App closed.");
-                Logger.Log("===========");
+               
                 Environment.Exit(0);
             }
         }

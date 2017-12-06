@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище FileManagerModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityType Name="DbLoggs">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Massage" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="MDate" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Param" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+  </EntityType>
+  <EntityType Name="DbUsers">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__DbLoggs__UserId__3D5E1FD2">
+    <End Role="DbUsers" Type="Self.DbUsers" Multiplicity="0..1" />
+    <End Role="DbLoggs" Type="Self.DbLoggs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DbUsers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="DbLoggs">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище FileManagerModelContainer">
+    <EntitySet Name="DbLoggs" EntityType="Self.DbLoggs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DbUsers" EntityType="Self.DbUsers" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__DbLoggs__UserId__3D5E1FD2" Association="Self.FK__DbLoggs__UserId__3D5E1FD2">
+      <End Role="DbUsers" EntitySet="DbUsers" />
+      <End Role="DbLoggs" EntitySet="DbLoggs" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

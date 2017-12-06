@@ -5,33 +5,35 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using FontAwesome.WPF;
+//using FontAwesome.WPF;
 using System.Windows;
 using lab1.Annotations;
 using System.Windows.Controls;
-using System.Windows.Threading;
 using System.Threading;
+using FontAwesome.WPF;
 
 namespace lab1
 {
     class LoginViewModel : INotifyPropertyChanged
     {
-        private User _userCandidate;
+        private DbUsers _userCandidate;
         private RelayCommand _signInCommand;
         private RelayCommand _signUpCommand;
         private RelayCommand _closeCommand;
 
         private ImageAwesome _loader;
 
-        public LoginViewModel(User userCandidate)
+
+        public LoginViewModel(DbUsers userCandidate)
         {
-            this._userCandidate = userCandidate; //отримує данні, введені в форму
+            this._userCandidate = userCandidate; //creates candidate for a login\signup
         }
          
-        public RelayCommand CloseCommand //відправляє? команду закриття
+        public RelayCommand CloseCommand 
         {
             get { return _closeCommand ?? (_closeCommand = new RelayCommand(obj => OnRequestClose(true))); } 
         }
+
 
         private void OnRequestLoader(bool isShow)        // Створюємо лоадер
         {
@@ -53,8 +55,9 @@ namespace lab1
             }
         }
 
-        public RelayCommand SignInCommand //вхід,я к вже існуючий користувач
+        public RelayCommand SignInCommand //lets to sign in if username and password are provided
         {
+           
             get
             {
                 return _signInCommand ?? (_signInCommand = new RelayCommand(SignIn,
@@ -81,25 +84,32 @@ namespace lab1
         private async void SignUp(Object obj) //реєстрація нового користувача
         {
             OnRequestLoader(true); //запускаємо лоадер
-
+            
             await Task.Run(() =>   //в іншому потоці
             {
-                if (DBAdapter.Users.Any(user => user.Username == Username))   //якщо корисутвач з таким ім'ям вже існує
+                using (var context = new FileManagerEntities())
                 {
-                    MessageBox.Show("User with this username already exists");
-                    Logger.Log("Trying to create user with existing name"); 
-                    return;
+                    if (context.DbUsers.Any(u => u.Login == Username))
+                    {
+                        MessageBox.Show("User with this username already exists");
+                        Logger.Log("User with  " + Username + " username already exists", "Msg");
+                        return;
+                    }
+                    context.DbUsers.AddObject(_userCandidate);
+                    context.SaveChanges();
+
+                    MessageBox.Show("User successfully created");
+                    Logger.Log("New User - " + Username + " created", "Msg");
                 }
-                DBAdapter.Users.Add(new User(Username, Password));
-                MessageBox.Show("User successfully created");
-                Logger.Log("New User created");
             });
-                  
-            OnRequestLoader(false);  //"вимикаємо" спіннер
+            OnRequestLoader(false);//"вимикаємо" спіннер
+
         }
 
 
-        internal String Password //отримує пароль, введений в форму
+      
+
+        internal String Password // get set for password
         {
             get => _userCandidate.Password;
             set
@@ -107,16 +117,16 @@ namespace lab1
                 _userCandidate.Password = value;
             }
         }
-        public String Username //отримує ім'я, введене в форму
+        public String Username //get set for username
         {
-            get => _userCandidate.Username;
+            get => _userCandidate.Login;
             set
             {
-                _userCandidate.Username = value;
+                _userCandidate.Login = value;
                 OnPropertyChanged();
             }
         }
-        
+
         private async void SignIn(Object obj) //шукає, чи ім'я та пароль відповідають існуючим в базі. якщо так - переходить до браузера
         {
             OnRequestLoader(true);
@@ -124,31 +134,44 @@ namespace lab1
             await Task.Run(() =>
             {
                 Thread.Sleep(1000);  //трохи часу для спіннера
-                var currentUser = DBAdapter.Users.FirstOrDefault(user => user.Username == Username &&
-                                                                     user.Password == Password);
-                if (currentUser == null)
-                {
-                    MessageBox.Show("Wrong Username or Password");
-                    Logger.Log("Wrong Username or Password entered");
-                    System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>   //для основного потоку
-                    {
-                        System.Windows.Forms.Application.Restart();    //перезапускаємо в разі, ящко пароль чи логін невірний
-                    }));
-                    return;
-                }
 
-                StationManager.CurrentUser = currentUser;
-                System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                using (var context = new FileManagerEntities())
                 {
-                    new Explorer().Show();      //open second form           
- }));
-                //   MessageBox.Show("You have entered just now");
-                Logger.Log("___________New session___________");
+                    var currentUser = context.DbUsers.FirstOrDefault(u => u.Login == Username);
+                    if (currentUser == null)
+                    {
+                        MessageBox.Show("Wrong Username!");
+                        Logger.Log("Wrong Username entered", "ERR");
+                        return;
+                    }
+
+                    else
+                    {
+                        if (currentUser.Password == Password)
+                        {
+                            StationManager.CurrentUser = currentUser;
+                            StaticResources.CurrUserId = currentUser.ID;
+                            Logger.Log("_ New session on " + (DateTime.Now) + "_", "MSG");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Wrong password!");
+                            Logger.Log("Wrong password entered", "ERR");
+                            return;
+                        }
+                    }
+
+
+                    StationManager.CurrentUser = currentUser;
+                    System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        new Explorer().Show();      //open second form           
+                    }));
+                }
             });
-         
             OnRequestLoader(false);
             OnRequestClose(false);
-        }
+         } 
 
         internal event CloseHandler RequestClose; 
         public delegate void CloseHandler(bool isQuitApp); 
@@ -164,6 +187,8 @@ namespace lab1
         protected virtual void OnRequestClose(bool isquitapp) 
         {
             RequestClose?.Invoke(isquitapp);
+
+            Logger.Log("App closed.", "MSG");
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Security;
@@ -17,10 +16,12 @@ namespace lab1
         public Explorer()
         {
             InitializeComponent();
-           this.LoadDirectories();
+            this.LoadDirectories();
         }
 
-private void node_MouseLeftButtonUp(object sender, EventArgs e)
+        
+
+        private void node_MouseLeftButtonUp(object sender, EventArgs e)
         {
             if (treeView.SelectedItem != null)
             {
@@ -56,13 +57,13 @@ private void node_MouseLeftButtonUp(object sender, EventArgs e)
                 }
                 selectedPath.Text = path;
 
-                Logger.Log(path);
+                Logger.Log(path,"PATH");
             }
             else
             {
                 System.Windows.MessageBox.Show("Sorry, can't get correct path!", "Bad news");
 
-                Logger.Log("Can't get correct path!");
+                Logger.Log("Can't get correct path!","ERR");
             }
         }
 
@@ -178,7 +179,7 @@ private void node_MouseLeftButtonUp(object sender, EventArgs e)
             }
             catch (Exception ex)
             {
-                Logger.Log("ERROR: ", ex);
+                Logger.Log("ERROR: "+ ex, "ERR");
             }
         }
     
@@ -217,7 +218,7 @@ private void node_MouseLeftButtonUp(object sender, EventArgs e)
 
             catch (Exception ex)
             {
-                Logger.Log("ERROR: ", ex);
+                Logger.Log("ERROR: " + ex, "ERR");
 
                 System.Windows.Forms.MessageBox.Show("No access", "Error",
                            MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -8,6 +8,13 @@ namespace lab1
         private static readonly string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         internal static readonly string ClientDirPath = Path.Combine(AppData, "FileExplorer");
         internal static readonly string ClientLogDirPath = Path.Combine(ClientDirPath, "Logs");
-       
+        public static int CurrUserId; // 0 - dafault - no user
+/*
+        public static void SetId(int currentUserid)
+        {
+            CurrUserId = currentUserid;
+            return;
+        } */
+        
     }
 }

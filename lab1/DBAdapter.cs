@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿/* using System.Collections.Generic;
 
 namespace lab1
 {
@@ -15,3 +15,4 @@ namespace lab1
         }
     }
 }
+*/

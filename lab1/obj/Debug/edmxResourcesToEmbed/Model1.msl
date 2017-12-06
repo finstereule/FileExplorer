@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище FileManagerModelContainer" CdmEntityContainer="FileManagerEntities">
+    <EntitySetMapping Name="DbLoggs">
+      <EntityTypeMapping TypeName="FileManagerModel.DbLoggs">
+        <MappingFragment StoreEntitySet="DbLoggs">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Massage" ColumnName="Massage" />
+          <ScalarProperty Name="MDate" ColumnName="MDate" />
+          <ScalarProperty Name="Param" ColumnName="Param" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DbUsers">
+      <EntityTypeMapping TypeName="FileManagerModel.DbUsers">
+        <MappingFragment StoreEntitySet="DbUsers">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
