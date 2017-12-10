@@ -171,7 +171,22 @@ namespace lab1
             });
             OnRequestLoader(false);
             OnRequestClose(false);
-         } 
+         }
+        /*
+        public  void SignOut() //шукає, чи ім'я та пароль відповідають існуючим в базі. якщо так - переходить до браузера
+        {
+
+                    StationManager.CurrentUser = null;
+                    System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        new Login().Show();      //open second form           
+                    }));
+            OnRequestClose(false);
+
+
+        }*/
+
+
 
         internal event CloseHandler RequestClose; 
         public delegate void CloseHandler(bool isQuitApp); 

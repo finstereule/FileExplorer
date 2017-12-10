@@ -37,6 +37,7 @@ namespace lab1
           
         }
 
+     
 
         private void Close(bool isQuitApp) //закриття додатку
         {

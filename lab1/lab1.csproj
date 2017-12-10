@@ -65,6 +65,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ExplorerModel.cs" />
+    <Compile Include="UserHistory.xaml.cs">
+      <DependentUpon>UserHistory.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Logger.cs" />
     <Compile Include="Model1.cs">
       <AutoGen>True</AutoGen>
@@ -90,6 +94,10 @@
     <Compile Include="StationManager.cs" />
     <Compile Include="User.cs" />
     <Page Include="Explorer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserHistory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

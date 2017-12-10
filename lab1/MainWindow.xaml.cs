@@ -24,5 +24,8 @@ namespace lab1
         {
             InitializeComponent();
         }
+        
     }
+
+   
 }

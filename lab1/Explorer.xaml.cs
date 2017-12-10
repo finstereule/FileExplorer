@@ -12,11 +12,17 @@ namespace lab1
 
     public partial class Explorer : Window
     {
+        private ExplorerModel explorerModel { get; set; }
 
         public Explorer()
         {
+
             InitializeComponent();
             this.LoadDirectories();
+
+
+            explorerModel = new ExplorerModel();
+            explorerModel.RequestClose += Close2; //дає можливість відправити запит на закриття
         }
 
         
@@ -237,6 +243,33 @@ namespace lab1
                 this.Cursor = System.Windows.Input.Cursors.Arrow;
             }
         }
+
+ 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                new UserHistory().ShowDialog();      //open second form           
+            }));
+        }
+
+        private void Button_Click2(object sender, RoutedEventArgs e)
+        {
+            //explorerModel.SignOut();
+        }
+
+
+        private void Close2(bool isQuitApp) //закриття додатку
+        {
+            if (!isQuitApp)
+                this.Close();
+            else
+            {
+
+                Environment.Exit(0);
+            }
+        }
+
     }
 
 }
